@@ -1,6 +1,6 @@
 const through = require("through2")
 const duplexify = require("duplexify")
-const xus = require("xup")
+const xus = require("xus")
 const path = require("path")
 
 module.exports = function xusify(file, opts) {
@@ -18,7 +18,10 @@ module.exports = function xusify(file, opts) {
     const packer = xus.createPacker()
 
     packer.once("data", data => {
-        tr.end("module.exports=" + String(data))
+		const res =
+			'var ext = require("' + __dirname + '/ext");' +
+			'module.exports = ext.r.bind(null, ' + String(data) + ')'
+        tr.end(res)
     })
 
     return duplexify(packer, tr)
