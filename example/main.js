@@ -1,28 +1,26 @@
-const runtime = require("xup/lib/runtime")
-const Template = runtime.Template
+var React = require("react")
+var ReactDOM = require("react-dom")
+var mobx = require("mobx")
+var mobxReact = require("mobx-react")
 
-function Variable(obj, key) { this.text = obj[key] }
-
-function Text(text) { this.text = text }
-
-function Tree(tag, props, children) {
-  this.tag = tag
-  this.props = props
-  this.children = children
-}
+var state = mobx.observable({
+  title: "fruits",
+  fruits: [
+    { name: "Mango" },
+    { name: "Kiwi" }
+  ]
+})
 
 var render = require("./layout.html")
 
-var tree = render({
-  title: "fruits",
-  fruits: [
-    { name: "Kiwi" },
-    { name: "Mango" }
-  ]
-}, {
-    treeConstructor: Tree,
-    variableConstructor: Variable,
-    textConstructor: Text
-}, Template)
+var tree = render(state, {
+	React: React,
+	mobx: mobx,
+	mobxReact: mobxReact
+})
 
-console.log(tree.children)
+ReactDOM.render(tree, document.getElementById("main"))
+
+setTimeout(function() {
+	state.fruits.push({ name: "Oranje" })
+}, 1000)
