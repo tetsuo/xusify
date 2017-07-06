@@ -14,15 +14,38 @@ module.exports = function xusify(file, opts) {
         return through()
     }
 
-    const tr = through()
-    const packer = xus.createPacker()
+    const rstream = through()
+    const wstream = through()
 
-    packer.once("data", data => {
-		const res =
-			'var ext = require("' + __dirname + '/ext");' +
-			'module.exports = ext.r.bind(null, ' + String(data) + ')'
-        tr.end(res)
+    const dup = duplexify(wstream, rstream)
+
+    wstream.on("data", data => {
+        const src = data.toString()
+        const cstream = xus.compile(src, (er, ctx) => {
+            if (er) {
+                return dup.emit("error", er)
+            }
+            const m =
+	 		    'var ext = require("' + __dirname + '/ext");' +
+	 		    'module.exports = ext.r.bind(null, ' + String(ctx) + ')'
+
+            rstream.push(m)
+        })
     })
 
-    return duplexify(packer, tr)
+    wstream.on("end", () => {
+        rstream.end()
+    })
+    
+
+    // const tr = through()
+    // const packer = xus.compile()
+
+    // packer.once("data", data => {
+	// 	const res =
+	// 		'var ext = require("' + __dirname + '/ext");' +
+	// 		'module.exports = ext.r.bind(null, ' + String(data) + ')'
+    //     tr.end(res)
+    // })
+    return dup
 }
