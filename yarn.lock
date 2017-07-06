@@ -934,9 +934,9 @@ xtend@^4.0.0, xtend@~4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/xtend/-/xtend-4.0.1.tgz#a5c6d532be656e23db820efb943a1f04998d63af"
 
-xus@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/xus/-/xus-0.5.0.tgz#4e5d0e932754f9995e4b3f1a5b98b47729254198"
+xus@^0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/xus/-/xus-0.5.1.tgz#f99637c4c2d93dcc92ced8f66c1db89eccee4bd3"
   dependencies:
     duplexify "^3.5.0"
     from2 "^2.3.0"
