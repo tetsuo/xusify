@@ -26,8 +26,8 @@ module.exports = function xusify(file, opts) {
                 return dup.emit("error", er)
             }
             const m =
-	 		    'var ext = require("' + __dirname + '/ext");' +
-	 		    'module.exports = ext.r.bind(null, ' + String(ctx) + ')'
+                'var ext = require("' + __dirname + '/ext");' +
+                'module.exports = ext.r.bind(null, ' + String(ctx) + ')'
 
             rstream.push(m)
         })
@@ -36,16 +36,6 @@ module.exports = function xusify(file, opts) {
     wstream.on("end", () => {
         rstream.end()
     })
-    
 
-    // const tr = through()
-    // const packer = xus.compile()
-
-    // packer.once("data", data => {
-	// 	const res =
-	// 		'var ext = require("' + __dirname + '/ext");' +
-	// 		'module.exports = ext.r.bind(null, ' + String(data) + ')'
-    //     tr.end(res)
-    // })
     return dup
 }

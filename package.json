@@ -1,6 +1,6 @@
 {
   "name": "xusify",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "browserify transform for xus",
   "main": "index.js",
   "scripts": {
@@ -15,6 +15,6 @@
   "dependencies": {
     "duplexify": "^3.5.0",
     "through2": "^2.0.3",
-    "xus": "^0.5.1"
+    "xus": "^0.6.0"
   }
 }
