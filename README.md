@@ -18,7 +18,7 @@ browserify -t xusify main.js > bundle.js
 
 given this template, `layout.html`:
 
-```
+```html
 <div>
   <p>You have completed <b>{completedCount}</b> of your tasks. Congratulations!</p>
   <p><b>Click on more tasks to finish them!</b></p>
