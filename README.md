@@ -1,70 +1,99 @@
 # xūsify
 
-browserify transform for precompiling [xūs](https://github.com/tetsuo/xus).
+[browserify](https://github.com/substack/node-browserify/) transform for precompiling [xūs](https://github.com/tetsuo/xus).
 
-# Install
+# install
 
 ```
 npm install xusify
 ```
 
-# Example
-
-given this template, `layout.html`:
-
-```html
-<div>
-  <h1>{title}</h1>
-  {#fruits}
-    <li>{name}</li>
-  {/fruits}
-</div>
-```
-
-you can require it as a pre-compiled function that can be evaluated for rendering:
-
-`main.js`
-
-```js
-var render = require("./layout.html") // here u go
-
-var React = require("react")
-var ReactDOM = require("react-dom")
-var mobx = require("mobx")
-var mobxReact = require("mobx-react")
-
-var state = mobx.observable({ // create observable state
-  title: "fruits",
-  fruits: [
-    { name: "Mango" },
-    { name: "Kiwi" }
-  ]
-})
-
-var el = render(state, {
-	React: React,
-	mobx: mobx,
-	mobxReact: mobxReact
-})
-
-ReactDOM.render(el, document.getElementById("main"))
-
-// add new fruit after waiting 1 second, this will be re-rendered automatically
-setTimeout(function() {
-	state.fruits.push({ name: "Oranje" })
-}, 1000)
-```
-
-then bundle up with browserify:
+# usage
 
 ```
 browserify -t xusify main.js > bundle.js
 ```
 
-# API
+# example
 
-See [xūs](https://github.com/tetsuo/xus).
+given this template, `layout.html`:
 
-# License
+```
+<div>
+  <p>You have completed <b>{completedCount}</b> of your tasks. Congratulations!</p>
+  <p><b>Click on more tasks to finish them!</b></p>
+  <ul>
+    {#todos}
+        <li class="{#done}finished{/done}" onClick="toggle">{title}</li>
+    {/todos}
+  </ul>
+<div>
+```
 
-MIT
+and this state definition, in `main.js`:
+
+```javascript
+var mobxStateTree = require("mobx-state-tree")
+
+var types = mobxStateTree.types
+
+var Todo = types.model("Todo", {
+  title: types.string,
+  done: true
+}, {
+  toggle: function() {
+    this.done = !this.done
+  }
+})
+
+var State = types.model("State", {
+  todos: types.array(Todo),
+  get completedCount() {
+    return this.todos.reduce(function(count, todo) {
+        return todo.done ? count + 1 : count
+    }, 0)
+  }
+})
+```
+
+create a new `state`:
+
+```javascript
+var state = State.create({
+  todos: [
+    { title: "Get coffee", done: false },
+    { title: "Wake up", done: true }
+  ]
+})
+```
+
+then `require()` `template.html` and produce a `ReactElement` with it:
+
+```javascript
+var render = require("./layout.html")
+
+var tree = render(state, {
+  createElement: React.createElement,
+  observer: mobxReact.observer
+})
+```
+
+and render it using `ReactDOM`:
+
+```javascript
+ReactDOM.render(tree, document.getElementById("main"))
+```
+
+finally, bundle up with `browserify`:
+
+```
+browserify -t xusify main.js > bundle.js
+```
+
+[See the full example code here.](https://github.com/tetsuo/xusify/tree/master/example)
+
+Type `npm run build` or `npm run watch` in [`example`](./example) folder.
+
+# api
+
+See [xūs API](https://github.com/tetsuo/xus).
