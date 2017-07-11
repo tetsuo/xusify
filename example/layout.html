@@ -1,6 +1,13 @@
 <div>
-  <h1>{title}</h1>
-  {#fruits}
-    <li>{name}</li>
-  {/fruits}
-</div>
+    <form onsubmit="add">
+        <input type="text" id="input" />
+        <input type="submit" value="Add task" />
+    </form>
+    <p>You have completed <b>{completedCount}</b> of your tasks. Congratulations!</p>
+    <p><b>Click on more tasks to finish them!</b></p>
+    <ul>
+        {#todos}
+            <li class="{#done}finished{/done}" onClick="toggle">{title}</li>
+        {/todos}
+    </ul>
+<div>
