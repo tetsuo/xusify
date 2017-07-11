@@ -21,20 +21,18 @@ module.exports = function xusify(file, opts) {
 
     wstream.on("data", data => {
         const src = data.toString()
-        const cstream = xus.compile(src, (er, ctx) => {
+
+        xus.compile(src, (er, ctx) => {
             if (er) {
                 return dup.emit("error", er)
             }
+
             const m =
                 'var ext = require("' + __dirname + '/ext");' +
                 'module.exports = ext.r.bind(null, ' + String(ctx) + ')'
 
-            rstream.push(m)
+            rstream.end(m)
         })
-    })
-
-    wstream.on("end", () => {
-        rstream.end()
     })
 
     return dup
