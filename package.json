@@ -1,16 +1,17 @@
 {
   "name": "xusify",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "browserify transform for xus",
   "main": "index.js",
   "scripts": {
-    "test": "tape test.js"
+    "test": "tape test/*.js"
   },
   "keywords": [],
   "author": "Onur Gunduz <ogunduz@gmail.com> (http://onurgunduz.com)",
   "license": "MIT",
   "devDependencies": {
-    "browserify": "^14.4.0"
+    "browserify": "^14.4.0",
+    "tape": "^4.7.0"
   },
   "dependencies": {
     "duplexify": "^3.5.0",
