@@ -22,7 +22,7 @@ module.exports = function xusify(file, opts) {
     wstream.on("data", data => {
         const src = data.toString()
 
-        xus.compile(src, (er, ctx) => {
+        xus.compile(src, { xmlMode: true }, (er, ctx) => {
             if (er) {
                 return dup.emit("error", er)
             }
