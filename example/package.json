@@ -3,19 +3,17 @@
   "version": "0.7.0",
   "description": "xus Example",
   "scripts": {
-    "build": "browserify -t ../ main.js -g [ envify --NODE_ENV production ] -p bundle-collapser/plugin | uglifyjs -c > bundle.js",
+    "build": "browserify -t ../ main.js -g [ envify --NODE_ENV production ] > bundle.js",
     "watch": "watchify -t ../ main.js -o bundle.js -dv"
   },
   "devDependencies": {
     "browserify": "^14.4.0",
-    "bundle-collapser": "^1.2.1",
     "envify": "^4.0.0",
     "mobx": "^3.1.16",
     "mobx-react": "^4.2.2",
     "mobx-state-tree": "^0.9.1",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
-    "uglify-js": "^3.0.23",
     "watchify": "^3.9.0"
   }
 }
